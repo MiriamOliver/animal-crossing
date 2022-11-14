@@ -148,5 +148,3 @@ const crearHTMLresultado = (result) => {
     div.innerHTML = htmlPers;
     divAnimales.append(div.lastElementChild);
 }
-
-
