@@ -37,7 +37,7 @@ const infoPersonajes = () => {
 const guardarPersonajes = () => {
     guardar.addEventListener('click', () =>{
         divAnimales.innerHTML = '';
-        const animal = document.querySelector('.name').value;
+        let animal = obtenerinfo();
         crearPersonaje(animal);
     });
 }
@@ -45,8 +45,8 @@ const guardarPersonajes = () => {
 const modificarPersonajes = () => {
     modificar.addEventListener('click', async() =>{
         divAnimales.innerHTML = '';
-        const animal = document.querySelector('.name').value;
         let personajes = await init();
+        let animal = obtenerinfo();
         modificarPersonaje(personajes, animal);
     });
 }
@@ -58,6 +58,18 @@ const borrarPersonajes = () => {
         let personajes = await init();
         borrarPersonaje(personajes, animal);
     });
+}
+
+const obtenerinfo = () => {
+    let name = document.querySelector('.nombre').value;
+    let img = document.querySelector('.imagen').value;
+    let birthday = document.querySelector('.birthday').value;
+    let hobby = document.querySelector('.hobby').value;
+    let personalidad = document.querySelector('.personality').value;
+    let sexo = document.querySelector('.gender').value;
+    let especie = document.querySelector('.species').value;
+    let animal = {name, img, birthday, hobby, personalidad, sexo, especie };
+    return animal;
 }
 
 const getPersonaje = async(personajes, animal) => {
@@ -76,12 +88,13 @@ const crearPersonaje = async(animal) => {
             'Content-Type': 'application/json' 
         }
     });
-    return await resp.json();
+    let result = ( resp.ok ) ? 'Insertado': 'No se pudo insertar';
+    crearHTMLresultado(result);
 }
 
 const modificarPersonaje = async(personajes, animal) => {
     const person = Object.entries(personajes);
-    let animales = person.find(personaje => personaje[1].name["name-EUes"].toLowerCase().includes(animal.toLowerCase()));
+    let animales = person.find(personaje => personaje[1].name["name-EUes"].toLowerCase().includes(animal.name.toLowerCase()));
     const resp = await fetch(`${urlanimal}${animales[1].id}`, {
         method: 'PUT',
         body: JSON.stringify(animal),
@@ -89,7 +102,8 @@ const modificarPersonaje = async(personajes, animal) => {
             'Content-Type': 'application/json' 
         }
     });
-    return await resp.json();
+    let result = ( resp.ok ) ? 'Modificado': 'No se pudo modificar';
+    crearHTMLresultado(result);
 }
 
 const borrarPersonaje = async(personajes, animal) => {
@@ -109,11 +123,11 @@ const crearHTML = (personaje) => {
         <div class="info">
             <h2>${personaje.name["name-EUes"]}</h2>
             <ul>
-                <li>Original title : ${personaje.personality}</li>
-                <li>Original title romanised : ${personaje.birthday}</li>
-                <li>Description : ${personaje.species}</li>
-                <li>Director : ${personaje.hobby}</li>
-                <li>Date : ${personaje.gender}</li>
+                <li>Personality : ${personaje.personality}</li>
+                <li>Birthday : ${personaje.birthday}</li>
+                <li>Species : ${personaje.species}</li>
+                <li>Hobby : ${personaje.hobby}</li>
+                <li>Gender : ${personaje.gender}</li>
             </ul>
         </div>
     </div>

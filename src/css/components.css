@@ -1,0 +1,22 @@
+.contenedor{
+    display: flex;
+} 
+
+.contenedorform{
+    width: 60%;
+}
+.form{
+    background-color: rgb(158, 231, 231);
+    margin: 3vh;
+    padding: 3vh 3vh 5vh 6vh;
+    border-radius: 3vh;
+}
+img{
+    border-radius: 3vh;
+}
+select{
+    width: 30%;
+}
+.infopersonaje{
+    padding: 8vh 3vh 5vh 6vh;
+} 
